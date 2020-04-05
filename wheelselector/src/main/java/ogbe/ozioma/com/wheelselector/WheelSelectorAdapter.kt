@@ -1,12 +1,12 @@
 package ogbe.ozioma.com.wheelselector
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
-import androidx.databinding.DataBindingUtil
+import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import ogbe.ozioma.com.wheelselector.databinding.WheelSelectorItemBinding
 
 
 class WheelSelectorAdapter : ListAdapter<WheelSelectorItem,
@@ -16,9 +16,13 @@ class WheelSelectorAdapter : ListAdapter<WheelSelectorItem,
 
     companion object {
         class PodcastDiffCallback : DiffUtil.ItemCallback<WheelSelectorItem>() {
-            override fun areItemsTheSame(oldItem: WheelSelectorItem, newItem: WheelSelectorItem) = oldItem == newItem
+            override fun areItemsTheSame(oldItem: WheelSelectorItem, newItem: WheelSelectorItem) =
+                oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: WheelSelectorItem, newItem: WheelSelectorItem) = oldItem == newItem
+            override fun areContentsTheSame(
+                oldItem: WheelSelectorItem,
+                newItem: WheelSelectorItem
+            ) = oldItem == newItem
         }
     }
 
@@ -29,22 +33,27 @@ class WheelSelectorAdapter : ListAdapter<WheelSelectorItem,
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        DataBindingUtil.inflate<WheelSelectorItemBinding>(LayoutInflater.from(parent.context), R.layout.wheel_selector_item, parent, false)
-                .run {
-                    return ViewHolder(this)
-                }
+        val inflater = LayoutInflater.from(parent.context)
+        val view: View =
+            inflater.inflate(R.layout.wheel_selector_item, parent, false)
+        return ViewHolder(view)
     }
 
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position))
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) =
+        holder.bind(getItem(position))
 
-    class ViewHolder(val binding: WheelSelectorItemBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(view: View) :
+        RecyclerView.ViewHolder(view) {
+        private val valueTextView: TextView by lazy {
+            view.findViewById<TextView>(R.id.value_text_view)
+        }
+
         fun bind(item: WheelSelectorItem) {
-            binding.executePendingBindings()
             if (item.highlight) {
-                binding.valueTextView.text = item.value.toString()
+                valueTextView.text = item.value.toString()
             } else {
-                binding.valueTextView.text = ""
+                valueTextView.text = ""
             }
         }
     }

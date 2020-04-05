@@ -3,9 +3,15 @@ package ogbe.ozioma.com.wheelselectorsample
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ogbe.ozioma.com.wheelselector.WheelSelectorItem
+import ogbe.ozioma.com.wheelselector.WheelSelectorView
 
 class MainActivity : AppCompatActivity() {
-    private val items: List<WheelSelectorItem> = listOf(WheelSelectorItem(0.5f, true),
+    private val wheelSelectorView: WheelSelectorView by lazy {
+        findViewById<WheelSelectorView>(R.id.wheel_selector_view)
+    }
+
+    private val items: List<WheelSelectorItem> = listOf(
+        WheelSelectorItem(0.5f, true),
         WheelSelectorItem(0.6f),
         WheelSelectorItem(0.7f),
         WheelSelectorItem(0.8f),
@@ -20,10 +26,13 @@ class MainActivity : AppCompatActivity() {
         WheelSelectorItem(1.7f),
         WheelSelectorItem(1.8f),
         WheelSelectorItem(1.9f),
-        WheelSelectorItem(2.0f, true))
+        WheelSelectorItem(2.0f, true)
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        wheelSelectorView.setItems(items)
+        wheelSelectorView.setSelectedItem(WheelSelectorItem(1.4f))
     }
 }

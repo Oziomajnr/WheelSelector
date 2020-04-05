@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <ogbe.ozioma.com.wheelselector.PlayerSpeedSelector
+    <ogbe.ozioma.com.wheelselector.WheelSelectorView
+        android:id="@+id/wheel_selector_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"

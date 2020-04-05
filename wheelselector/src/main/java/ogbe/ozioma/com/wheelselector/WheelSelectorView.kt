@@ -3,21 +3,43 @@ package ogbe.ozioma.com.wheelselector
 import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
-import android.view.*
+import android.view.GestureDetector
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
 import android.widget.FrameLayout
-import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.*
-import ogbe.ozioma.com.wheelselector.databinding.LayoutSpeedSelectorBinding
+import android.widget.TextView
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
-class PlayerSpeedSelector : FrameLayout {
 
-    lateinit var binding: LayoutSpeedSelectorBinding
+class WheelSelectorView : FrameLayout {
 
+
+    private lateinit var speedScrollerRecyclerView: RecyclerView
+    private lateinit var selectedValueText: TextView
     private val snapHelper = CenterSnapHelper()
 
-    private var selectedValue = WheelSelectorItem(1f)
+    private var selectedValue: WheelSelectorItem = WheelSelectorItem(1f)
     private val wheelSelectorAdapter = WheelSelectorAdapter()
-    private var items: List<WheelSelectorItem> = emptyList()
+    private var items: List<WheelSelectorItem> = listOf(
+        WheelSelectorItem(0.5f, true),
+        WheelSelectorItem(0.6f),
+        WheelSelectorItem(0.7f),
+        WheelSelectorItem(0.8f),
+        WheelSelectorItem(0.9f),
+        WheelSelectorItem(1.0f, true),
+        WheelSelectorItem(1.1f),
+        WheelSelectorItem(1.2f),
+        WheelSelectorItem(1.3f),
+        WheelSelectorItem(1.4f),
+        WheelSelectorItem(1.5f, true),
+        WheelSelectorItem(1.6f),
+        WheelSelectorItem(1.7f),
+        WheelSelectorItem(1.8f),
+        WheelSelectorItem(1.9f),
+        WheelSelectorItem(2.0f, true)
+    )
 
     private val gestureDetector =
         GestureDetector(context, object : OnSwipeListener() {
@@ -45,12 +67,9 @@ class PlayerSpeedSelector : FrameLayout {
 
     private fun loadLayout(context: Context) {
         val inflater = LayoutInflater.from(context)
-        binding = DataBindingUtil.inflate(
-            inflater,
-            R.layout.layout_speed_selector,
-            this,
-            true
-        )
+        val inflatedView: View = inflater.inflate(R.layout.layout_speed_selector, this, true)
+        speedScrollerRecyclerView = inflatedView.findViewById(R.id.speed_scroller_recycler_view)
+        selectedValueText = inflatedView.findViewById(R.id.selected_value_text_view)
     }
 
     fun setItems(items: List<WheelSelectorItem>) {
@@ -61,11 +80,11 @@ class PlayerSpeedSelector : FrameLayout {
     /**
      * Scroll to an item if it exists in the list of items
      */
-    fun selectedItem(selectedItem: WheelSelectorItem) {
+    fun setSelectedItem(selectedItem: WheelSelectorItem) {
         val index = items.indexOfFirst { it.value == selectedItem.value }
         if (index >= 0) {
-            binding.speedScrollerRecyclerView.postDelayed({
-                binding.speedScrollerRecyclerView.snapScrolltoPosition(index, snapHelper, true)
+            speedScrollerRecyclerView.postDelayed({
+                speedScrollerRecyclerView.snapScrolltoPosition(index, snapHelper, true)
             }, 50)
         }
     }
@@ -74,11 +93,11 @@ class PlayerSpeedSelector : FrameLayout {
     @SuppressLint("ClickableViewAccessibility")
     override fun onFinishInflate() {
         super.onFinishInflate()
-        binding.speedScrollerRecyclerView.setOnTouchListener { v, event ->
+        speedScrollerRecyclerView.setOnTouchListener { v, event ->
             gestureDetector.onTouchEvent(event)
             false
         }
-        binding.speedScrollerRecyclerView.apply {
+        speedScrollerRecyclerView.apply {
             adapter = wheelSelectorAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             addItemDecoration(CenterDecoration(0))
@@ -87,12 +106,10 @@ class PlayerSpeedSelector : FrameLayout {
                 onSnapPositionChangeListener = object : OnSnapPositionChangeListener {
                     override fun onSnapPositionChange(position: Int) {
                         selectedValue = items[position]
-                        binding.selectedValueTextView.text = "X"
+                        selectedValueText.text = "X"
                     }
                 })
         }
-
-        wheelSelectorAdapter.submitList(items)
     }
 }
 
