@@ -22,24 +22,7 @@ class WheelSelectorView : FrameLayout {
 
     private var selectedValue: WheelSelectorItem = WheelSelectorItem(1f)
     private val wheelSelectorAdapter = WheelSelectorAdapter()
-    private var items: List<WheelSelectorItem> = listOf(
-        WheelSelectorItem(0.5f, true),
-        WheelSelectorItem(0.6f),
-        WheelSelectorItem(0.7f),
-        WheelSelectorItem(0.8f),
-        WheelSelectorItem(0.9f),
-        WheelSelectorItem(1.0f, true),
-        WheelSelectorItem(1.1f),
-        WheelSelectorItem(1.2f),
-        WheelSelectorItem(1.3f),
-        WheelSelectorItem(1.4f),
-        WheelSelectorItem(1.5f, true),
-        WheelSelectorItem(1.6f),
-        WheelSelectorItem(1.7f),
-        WheelSelectorItem(1.8f),
-        WheelSelectorItem(1.9f),
-        WheelSelectorItem(2.0f, true)
-    )
+    private var items: List<WheelSelectorItem> = emptyList()
 
     private val gestureDetector =
         GestureDetector(context, object : OnSwipeListener() {
