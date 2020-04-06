@@ -2,6 +2,8 @@ package ogbe.ozioma.com.wheelselectorsample
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Toast
+import ogbe.ozioma.com.wheelselector.SpeedSelectorEvent
 import ogbe.ozioma.com.wheelselector.WheelSelectorItem
 import ogbe.ozioma.com.wheelselector.WheelSelectorView
 
@@ -34,5 +36,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         wheelSelectorView.setItems(items)
         wheelSelectorView.setSelectedItem(WheelSelectorItem(1.4f))
+        wheelSelectorView.itemSelectedEvent = object : SpeedSelectorEvent {
+            override fun onItemSelected(wheelSelectorItem: WheelSelectorItem) {
+                Toast.makeText(
+                    this@MainActivity,
+                    wheelSelectorItem.value.toString(),
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
     }
 }
