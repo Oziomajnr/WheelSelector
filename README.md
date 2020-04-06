@@ -11,7 +11,7 @@ Add jitpack in your root build.gradle at the end of repositories:
 ```css
 	allprojects {
 		repositories {
-			maven { url 'https://jitpack.io' }
+			maven { url 'https://jitpack.io'}
 		}
 	}
 ```
