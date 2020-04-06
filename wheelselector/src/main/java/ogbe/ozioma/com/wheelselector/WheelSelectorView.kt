@@ -11,6 +11,8 @@ import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.marginBottom
+import androidx.core.view.updateLayoutParams
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
@@ -29,9 +31,14 @@ class WheelSelectorView : FrameLayout {
     private var items: List<WheelSelectorItem> = emptyList()
 
     private lateinit var selectedValueUnit: String
-
     private var itemBarColor: Int = ContextCompat.getColor(context, R.color.black)
-    private  var markerDrawable: Drawable? = null
+    private var markerDrawable: Drawable? = null
+    private var itemBarHeight =
+        context.resources.getDimensionPixelOffset(R.dimen.default_bar_height)
+    private var itemBarThickness =
+        context.resources.getDimensionPixelOffset(R.dimen.default_bar_height)
+    private var markerMarginBottom =
+        context.resources.getDimensionPixelOffset(R.dimen.marker_bottom_margin)
 
 
     private val gestureDetector =
@@ -60,7 +67,7 @@ class WheelSelectorView : FrameLayout {
 
     private fun loadLayout(context: Context, attrs: AttributeSet, defStyleAttr: Int? = null) {
         val inflater = LayoutInflater.from(context)
-        val inflatedView: View = inflater.inflate(R.layout.layout_speed_selector, this, true)
+        val inflatedView: View = inflater.inflate(R.layout.layout_wheel_selector, this, true)
         val typedArray = context.obtainStyledAttributes(
             attrs,
             R.styleable.WheelSelectorView,
@@ -75,6 +82,21 @@ class WheelSelectorView : FrameLayout {
                 ContextCompat.getColor(context, R.color.black)
             )
 
+            itemBarHeight = typedArray.getDimensionPixelOffset(
+                R.styleable.WheelSelectorView_itemBarHeight,
+                context.resources.getDimensionPixelOffset(R.dimen.default_bar_height)
+            )
+
+            itemBarThickness = typedArray.getDimensionPixelOffset(
+                R.styleable.WheelSelectorView_itemBarThickness,
+                context.resources.getDimensionPixelOffset(R.dimen.default_bar_thickness)
+            )
+
+            markerMarginBottom = typedArray.getDimensionPixelOffset(
+                R.styleable.WheelSelectorView_selectedMarkerBottomMargin,
+                context.resources.getDimensionPixelOffset(R.dimen.marker_bottom_margin)
+            )
+
             markerDrawable = typedArray.getDrawable(
                 R.styleable.WheelSelectorView_selectedMarkerDrawable
             ) ?: ContextCompat.getDrawable(context, R.drawable.arrow_down)
@@ -85,6 +107,9 @@ class WheelSelectorView : FrameLayout {
         speedScrollerRecyclerView = inflatedView.findViewById(R.id.speed_scroller_recycler_view)
         selectedValueText = inflatedView.findViewById(R.id.selected_value_text_view)
         selectedValueText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, markerDrawable)
+        selectedValueText.updateLayoutParams {
+            (this as MarginLayoutParams).bottomMargin = markerMarginBottom
+        }
     }
 
     fun setItems(items: List<WheelSelectorItem>) {
@@ -113,7 +138,8 @@ class WheelSelectorView : FrameLayout {
             false
         }
         speedScrollerRecyclerView.apply {
-            wheelSelectorAdapter = WheelSelectorAdapter(BarItemModel(64f, itemBarColor))
+            wheelSelectorAdapter =
+                WheelSelectorAdapter(BarItemModel(itemBarHeight, itemBarThickness, itemBarColor))
             adapter = wheelSelectorAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             addItemDecoration(CenterDecoration(0))

@@ -9,8 +9,8 @@
 
     <View
         android:id="@+id/item_line_view"
-        android:layout_width="2dp"
-        android:layout_height="64dp"
+        android:layout_width="@dimen/default_bar_thickness"
+        android:layout_height="@dimen/default_bar_height"
         android:layout_gravity="center"
         android:background="#000000" />
 

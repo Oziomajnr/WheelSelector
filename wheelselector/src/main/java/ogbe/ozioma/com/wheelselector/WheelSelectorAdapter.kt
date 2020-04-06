@@ -55,6 +55,8 @@ class WheelSelectorAdapter(private val barItemModel: BarItemModel) : ListAdapter
 
         init {
             itemLineView.setBackgroundColor(barItemModel.barColor)
+            itemLineView.layoutParams.height = barItemModel.barHeight
+            itemLineView.layoutParams.width = barItemModel.barThickness
         }
 
         fun bind(item: WheelSelectorItem) {

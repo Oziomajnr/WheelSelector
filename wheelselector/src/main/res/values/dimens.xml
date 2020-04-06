@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="default_bar_height">64dp</dimen>
+    <dimen name="default_bar_thickness">2dp</dimen>
+    <dimen name="marker_bottom_margin">8dp</dimen>
+</resources>

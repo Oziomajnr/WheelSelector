@@ -1,48 +1,47 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:clipChildren="false"
     android:clipToPadding="false">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/top_guideline"
-        app:layout_constraintGuide_percent="0.5"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="horizontal" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
 
     <TextView
         android:id="@+id/selected_value_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/marker_bottom_margin"
+        android:drawableBottom="@drawable/arrow_down"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@id/speed_scroller_recycler_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:drawableBottom="@drawable/arrow_down"
-        android:gravity="center"
         tools:text="10x" />
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/speed_scroller_recycler_view"
-        app:layoutManager="GridLayoutManager"
-        app:layout_constraintBottom_toTopOf="@id/speed_scroller_recycler_view"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/selected_value_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
         android:fadingEdgeLength="200dp"
         android:orientation="horizontal"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:requiresFadingEdge="horizontal"
+        app:layoutManager="GridLayoutManager"
+        app:layout_constraintBottom_toTopOf="@id/speed_scroller_recycler_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/selected_value_text_view"
         tools:itemCount="30"
         tools:listitem="@layout/wheel_selector_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>

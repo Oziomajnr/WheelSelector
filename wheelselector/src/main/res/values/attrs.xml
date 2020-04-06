@@ -4,9 +4,9 @@
         <attr name="selectedMarkerDrawable" format="reference" />
         <attr name="selectedMarkerUnit" format="string" />
         <attr name="itemBarHeight" format="dimension" />
-        <attr name="itemBarColor" format="color" />
-        <attr name="itemBarWidth" format="dimension" />
+        <attr name="itemBarThickness" format="dimension" />
         <attr name="itemBarLength" format="dimension" />
+        <attr name="itemBarColor" format="color" />
         <attr name="selectedMarkerBottomMargin" format="dimension" />
         <attr name="highlightedItemTextAppearance" format="reference" />
         <attr name="selectedMarkerTextAppearance" format="reference" />
