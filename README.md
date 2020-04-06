@@ -1,14 +1,28 @@
 
 # WheelSelector
-An android view for selecting items by spinning a wheel
+An android view for selecting items like a spinning wheel
 
 ## How to use
 
-![Demo](https://github.com/Oziomajnr/WheelSelector/blob/master/wheel_selector_sample_gif.gif)
+![Demo](https://github.com/Oziomajnr/WheelSelector/blob/master/demo.gif)
 
-Add the library as a dependency to your app level build.gradle file 
+Add jitpack in your root build.gradle at the end of repositories:
 
-    enter code here
+```css
+	allprojects {
+		repositories {
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
+
+**Step 2.**  Add the dependency
+
+```css
+	dependencies {
+	        implementation 'com.github.Oziomajnr:WheelSelector:v1.0.0'
+	}
+```
  
  Add the view in your layout file 
 
