@@ -97,3 +97,7 @@ To get notified when an item is selected, register a SpeedSelectorEvent listener
 
 Check out the [sample project](https://github.com/Oziomajnr/WheelSelector/tree/master/app) to see it in action
 
+Credits: 
+[Center Decorator](https://stackoverflow.com/a/53510142/3937903)
+
+
