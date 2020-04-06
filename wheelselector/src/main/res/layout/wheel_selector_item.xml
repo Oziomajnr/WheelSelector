@@ -8,7 +8,7 @@
     android:orientation="vertical">
 
     <View
-        android:id="@+id/speed_line_view"
+        android:id="@+id/item_line_view"
         android:layout_width="2dp"
         android:layout_height="64dp"
         android:layout_gravity="center"

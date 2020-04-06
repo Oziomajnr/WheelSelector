@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="WheelSelectorView">
+        <attr name="selectedMarkerDrawable" format="reference" />
+        <attr name="selectedMarkerUnit" format="string" />
+        <attr name="itemBarHeight" format="dimension" />
+        <attr name="itemBarColor" format="color" />
+        <attr name="itemBarWidth" format="dimension" />
+        <attr name="itemBarLength" format="dimension" />
+        <attr name="selectedMarkerBottomMargin" format="dimension" />
+    </declare-styleable>
+</resources>

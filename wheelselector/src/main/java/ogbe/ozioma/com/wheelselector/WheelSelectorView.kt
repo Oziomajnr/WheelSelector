@@ -9,20 +9,27 @@ import android.view.MotionEvent
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 
 class WheelSelectorView : FrameLayout {
 
-
+    var itemSelectedEvent: SpeedSelectorEvent? = null
     private lateinit var speedScrollerRecyclerView: RecyclerView
     private lateinit var selectedValueText: TextView
     private val snapHelper = CenterSnapHelper()
 
-    private var selectedValue: WheelSelectorItem = WheelSelectorItem(1f)
-    private val wheelSelectorAdapter = WheelSelectorAdapter()
+    private var selectedItem: WheelSelectorItem? = null
+
+    private lateinit var wheelSelectorAdapter: WheelSelectorAdapter
     private var items: List<WheelSelectorItem> = emptyList()
+
+    private lateinit var selectedValueUnit: String
+
+    private var itemBarColor: Int = ContextCompat.getColor(context, R.color.black)
+
 
     private val gestureDetector =
         GestureDetector(context, object : OnSwipeListener() {
@@ -37,7 +44,7 @@ class WheelSelectorView : FrameLayout {
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
-        loadLayout(context)
+        loadLayout(context, attrs)
     }
 
     constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(
@@ -45,12 +52,29 @@ class WheelSelectorView : FrameLayout {
         attrs,
         defStyleAttr
     ) {
-        loadLayout(context)
+        loadLayout(context, attrs, defStyleAttr)
     }
 
-    private fun loadLayout(context: Context) {
+    private fun loadLayout(context: Context, attrs: AttributeSet, defStyleAttr: Int? = null) {
         val inflater = LayoutInflater.from(context)
         val inflatedView: View = inflater.inflate(R.layout.layout_speed_selector, this, true)
+        val typedArray = context.obtainStyledAttributes(
+            attrs,
+            R.styleable.WheelSelectorView,
+            defStyleAttr ?: 0,
+            0
+        )
+        try {
+            selectedValueUnit =
+                typedArray.getString(R.styleable.WheelSelectorView_selectedMarkerUnit) ?: ""
+            itemBarColor = typedArray.getColor(
+                R.styleable.WheelSelectorView_itemBarColor,
+                ContextCompat.getColor(context, R.color.black)
+            )
+        } finally {
+            typedArray.recycle()
+        }
+
         speedScrollerRecyclerView = inflatedView.findViewById(R.id.speed_scroller_recycler_view)
         selectedValueText = inflatedView.findViewById(R.id.selected_value_text_view)
     }
@@ -81,6 +105,7 @@ class WheelSelectorView : FrameLayout {
             false
         }
         speedScrollerRecyclerView.apply {
+            wheelSelectorAdapter = WheelSelectorAdapter(BarItemModel(64f, itemBarColor))
             adapter = wheelSelectorAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             addItemDecoration(CenterDecoration(0))
@@ -88,8 +113,13 @@ class WheelSelectorView : FrameLayout {
             attachSnapHelperWithListener(snapHelper = snapHelper,
                 onSnapPositionChangeListener = object : OnSnapPositionChangeListener {
                     override fun onSnapPositionChange(position: Int) {
-                        selectedValue = items[position]
-                        selectedValueText.text = "X"
+                        selectedItem = items[position]
+                        itemSelectedEvent?.onItemSelected(items[position])
+                        selectedValueText.text = context.resources.getString(
+                            R.string.selected_item_text,
+                            selectedItem?.value.toString(),
+                            selectedValueUnit
+                        )
                     }
                 })
         }

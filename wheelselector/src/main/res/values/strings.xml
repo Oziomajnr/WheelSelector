@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Wheel Selector</string>
+    <string name="selected_item_text">%1s%2s</string>
 </resources>

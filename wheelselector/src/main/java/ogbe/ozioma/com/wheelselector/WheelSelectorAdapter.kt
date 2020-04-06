@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 
 
-class WheelSelectorAdapter : ListAdapter<WheelSelectorItem,
+class WheelSelectorAdapter(private val barItemModel: BarItemModel) : ListAdapter<WheelSelectorItem,
         WheelSelectorAdapter.ViewHolder>(PodcastDiffCallback()) {
 
     private var actualNumberOfItems: Int? = null
@@ -36,17 +36,25 @@ class WheelSelectorAdapter : ListAdapter<WheelSelectorItem,
         val inflater = LayoutInflater.from(parent.context)
         val view: View =
             inflater.inflate(R.layout.wheel_selector_item, parent, false)
-        return ViewHolder(view)
+        return ViewHolder(view, barItemModel)
     }
 
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(getItem(position))
 
-    class ViewHolder(view: View) :
+    class ViewHolder(view: View, barItemModel: BarItemModel) :
         RecyclerView.ViewHolder(view) {
         private val valueTextView: TextView by lazy {
             view.findViewById<TextView>(R.id.value_text_view)
+        }
+
+        private val itemLineView: View by lazy {
+            view.findViewById<View>(R.id.item_line_view)
+        }
+
+        init {
+            itemLineView.setBackgroundColor(barItemModel.barColor)
         }
 
         fun bind(item: WheelSelectorItem) {
