@@ -8,5 +8,7 @@
         <attr name="itemBarWidth" format="dimension" />
         <attr name="itemBarLength" format="dimension" />
         <attr name="selectedMarkerBottomMargin" format="dimension" />
+        <attr name="highlightedItemTextAppearance" format="reference" />
+        <attr name="selectedMarkerTextAppearance" format="reference" />
     </declare-styleable>
 </resources>

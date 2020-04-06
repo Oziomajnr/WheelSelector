@@ -10,12 +10,12 @@
         android:id="@+id/wheel_selector_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:itemBarColor="#B81D1D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:selectedMarkerUnit="x"
-        app:itemBarColor="#B81D1D"
-        />
+        app:selectedMarkerDrawable="@drawable/ic_chevron_down"
+        app:selectedMarkerUnit="x" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

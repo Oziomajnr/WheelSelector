@@ -2,6 +2,7 @@ package ogbe.ozioma.com.wheelselector
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.view.GestureDetector
 import android.view.LayoutInflater
@@ -19,6 +20,7 @@ class WheelSelectorView : FrameLayout {
     var itemSelectedEvent: SpeedSelectorEvent? = null
     private lateinit var speedScrollerRecyclerView: RecyclerView
     private lateinit var selectedValueText: TextView
+
     private val snapHelper = CenterSnapHelper()
 
     private var selectedItem: WheelSelectorItem? = null
@@ -29,6 +31,7 @@ class WheelSelectorView : FrameLayout {
     private lateinit var selectedValueUnit: String
 
     private var itemBarColor: Int = ContextCompat.getColor(context, R.color.black)
+    private  var markerDrawable: Drawable? = null
 
 
     private val gestureDetector =
@@ -71,12 +74,17 @@ class WheelSelectorView : FrameLayout {
                 R.styleable.WheelSelectorView_itemBarColor,
                 ContextCompat.getColor(context, R.color.black)
             )
+
+            markerDrawable = typedArray.getDrawable(
+                R.styleable.WheelSelectorView_selectedMarkerDrawable
+            ) ?: ContextCompat.getDrawable(context, R.drawable.arrow_down)
         } finally {
             typedArray.recycle()
         }
 
         speedScrollerRecyclerView = inflatedView.findViewById(R.id.speed_scroller_recycler_view)
         selectedValueText = inflatedView.findViewById(R.id.selected_value_text_view)
+        selectedValueText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, markerDrawable)
     }
 
     fun setItems(items: List<WheelSelectorItem>) {

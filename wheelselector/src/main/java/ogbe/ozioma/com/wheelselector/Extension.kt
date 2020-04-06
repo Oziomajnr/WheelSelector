@@ -26,7 +26,7 @@ fun RecyclerView.attachSnapHelperWithListener(
 
 fun RecyclerView.snapScrolltoPosition(position: Int, snapHelper: SnapHelper, smoothScroll: Boolean = false) {
     val recyclerLayoutManager = layoutManager
-        ?: kotlin.error("Layout manager must be set before scrolling")
+        ?: error("Layout manager must be set before scrolling")
     if (smoothScroll) {
         smoothScrollToPosition(position)
     } else {
