@@ -39,6 +39,9 @@ class WheelSelectorView : FrameLayout {
         context.resources.getDimensionPixelOffset(R.dimen.default_bar_height)
     private var markerMarginBottom =
         context.resources.getDimensionPixelOffset(R.dimen.marker_bottom_margin)
+    private var infiniteWheel = false
+
+    private var moduloFactor = 1
 
 
     private val gestureDetector =
@@ -97,6 +100,11 @@ class WheelSelectorView : FrameLayout {
                 context.resources.getDimensionPixelOffset(R.dimen.marker_bottom_margin)
             )
 
+            infiniteWheel = typedArray.getBoolean(
+                R.styleable.WheelSelectorView_inifinteWheel,
+                false
+            )
+
             markerDrawable = typedArray.getDrawable(
                 R.styleable.WheelSelectorView_selectedMarkerDrawable
             ) ?: ContextCompat.getDrawable(context, R.drawable.arrow_down)
@@ -139,7 +147,14 @@ class WheelSelectorView : FrameLayout {
         }
         speedScrollerRecyclerView.apply {
             wheelSelectorAdapter =
-                WheelSelectorAdapter(BarItemModel(itemBarHeight, itemBarThickness, itemBarColor))
+                WheelSelectorAdapter(
+                    BarItemModel(
+                        itemBarHeight,
+                        itemBarThickness,
+                        itemBarColor,
+                        infiniteWheel
+                    )
+                )
             adapter = wheelSelectorAdapter
             layoutManager = LinearLayoutManager(context, RecyclerView.HORIZONTAL, false)
             addItemDecoration(CenterDecoration(0))
@@ -147,8 +162,11 @@ class WheelSelectorView : FrameLayout {
             attachSnapHelperWithListener(snapHelper = snapHelper,
                 onSnapPositionChangeListener = object : OnSnapPositionChangeListener {
                     override fun onSnapPositionChange(position: Int) {
-                        selectedItem = items[position]
-                        itemSelectedEvent?.onItemSelected(items[position])
+                        if (infiniteWheel) {
+                            moduloFactor = items.size
+                        }
+                        selectedItem = items[position % moduloFactor]
+                        itemSelectedEvent?.onItemSelected(items[position % moduloFactor])
                         selectedValueText.text = context.resources.getString(
                             R.string.selected_item_text,
                             selectedItem?.value.toString(),

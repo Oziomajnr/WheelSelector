@@ -39,6 +39,28 @@ class WheelSelectorAdapter(private val barItemModel: BarItemModel) : ListAdapter
         return ViewHolder(view, barItemModel)
     }
 
+    override fun getItem(position: Int): WheelSelectorItem {
+        return if (barItemModel.isInfiniteWheel) {
+            actualNumberOfItems?.let {
+                super.getItem(position % it)
+            } ?: super.getItem(position)
+        } else {
+            getItem(position)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return if (barItemModel.isInfiniteWheel) {
+            if (currentList.isEmpty()) {
+                0
+            } else {
+                Int.MAX_VALUE
+            }
+        } else {
+            super.getItemCount()
+        }
+    }
+
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) =
         holder.bind(getItem(position))

@@ -10,5 +10,6 @@
         <attr name="selectedMarkerBottomMargin" format="dimension" />
         <attr name="highlightedItemTextAppearance" format="reference" />
         <attr name="selectedMarkerTextAppearance" format="reference" />
+        <attr name="inifinteWheel" format="boolean" />
     </declare-styleable>
 </resources>
