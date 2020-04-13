@@ -1,4 +1,5 @@
 
+
 # WheelSelector
 An android view for selecting items like a spinning wheel
 
@@ -82,6 +83,21 @@ From your activity or fragment, you can set a list of items to be displayed in t
 you can manually select an item using the method 
 
      wheelSelectorView.setSelectedItem(WheelSelectorItem(1.4f)) 
+To get notified when an item is selected, register a SpeedSelectorEvent listener e.g
+
+    wheelSelectorView.itemSelectedEvent = object : SpeedSelectorEvent {  
+        override fun onItemSelected(wheelSelectorItem: WheelSelectorItem) {  
+            Toast.makeText(  
+                this@MainActivity,  
+      wheelSelectorItem.value.toString(),  
+      Toast.LENGTH_SHORT  
+      ).show()  
+        }  
+    }
 
 Check out the [sample project](https://github.com/Oziomajnr/WheelSelector/tree/master/app) to see it in action
+
+Credits: 
+[Center Decorator](https://stackoverflow.com/a/53510142/3937903)
+
 
